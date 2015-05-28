@@ -1,0 +1,67 @@
+name: haskell-stackage
+version: 3.0.0
+inherits: ondrapelech/haskell@2.0.3
+description: wercker box for the GHC 7.8 and the latest LTS Stackage snapshot, with Haskell Platform packages preinstalled
+type: main
+platform: ubuntu@12.04
+keywords:
+  - haskell
+  - stackage
+  - ubuntu
+  - 14.10
+packages:
+script: |
+  # variables
+  HASKELL_PLATFORM_PACKAGES="array async attoparsec base bytestring case-insensitive containers deepseq directory extensible-exceptions fgl filepath GLURaw GLUT hashable haskell2010 haskell98 hpc hscolour html HTTP HUnit mtl network old-locale old-time OpenGL OpenGLRaw parallel parsec pretty primitive process QuickCheck random regex-base regex-compat regex-posix split stm syb template-haskell text time transformers unix unordered-containers vector xhtml zlib"
+  STACKAGE="https://www.stackage.org"
+  STACKAGE_BRANCH="lts"
+  
+  function cabal_install_insist { until cabal install -j "$@" ; do echo -e "\033[1mcabal install failed, trying again...\033[m" ; done }
+  function install_stackage { mv "$HOME/.cabal/bin/cabal" $TMPDIR ; rm -rf "$HOME/.cabal" ; rm -rf "$HOME/.ghc" ; mkdir -p "$HOME/.cabal/bin" ; mv $TMPDIR/cabal "$HOME/.cabal/bin/" ; hash -r ; cabal info > /dev/null 2>&1 ; wget -q -O - "${STACKAGE}/${STACKAGE_BRANCH}/cabal.config?global=true" >> $HOME/.cabal/config ; echo ; cabal update ; echo ; }
+  
+  
+  echo -e "\033[1m###  Upgrading system packages...  ###########################################\033[m"
+  sudo aptitude update
+  sudo aptitude full-upgrade -y
+  
+  echo
+  which ghc
+  ghc --version
+  which cabal
+  cabal --version
+  ghc-pkg list
+  echo
+  
+  
+  echo -e "\033[1m###  Bootstrapping cabal-install from Stackage...  ###########################\033[m"
+  install_stackage
+  cabal_install_insist cabal-install
+  install_stackage
+  cabal_install_insist cabal-install
+  
+  
+  echo -e "\033[1m###  Checking cabal-install from Stackage...  ################################\033[m"
+  which cabal
+  cabal --version
+  echo
+  
+  
+  echo -e "\033[1m###  Installing packages in Haskell Platform  ################################\033[m"
+  cabal_install_insist alex happy
+  cabal_install_insist cpphs gtk2hs-buildtools
+  cabal_install_insist $HASKELL_PLATFORM_PACKAGES
+  echo
+  
+  
+  echo -e "\033[1m###  Final check  ############################################################\033[m"
+  
+  which ghc
+  ghc --version
+  which cabal
+  cabal --version
+  ghc-pkg list
+  echo
+  
+  
+  echo -e "\033[1m###  FINISHED  ###############################################################\033[m"
+
