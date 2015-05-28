@@ -65,3 +65,35 @@ script: |
   
   echo -e "\033[1m###  FINISHED  ###############################################################\033[m"
 
+box-detect:
+  priority: 1000
+  version :
+  detect:
+    - files:
+      - '*.cabal'
+
+default-build:
+  haskell:
+    priority: 50
+    detect:
+      - default: true
+    text-to-append: |
+      # Build definition
+      build:
+        # The steps that will be executed on build
+        steps:
+          - script:
+              name: install dependencies
+              code: |
+                cabal update
+                cabal install --enable-tests --only-dependencies
+          - script:
+              name: build package
+              code: |
+                cabal configure --enable-tests
+                cabal build
+          - script:
+              name: test package
+              code: |
+                cabal test --show-details=always
+
