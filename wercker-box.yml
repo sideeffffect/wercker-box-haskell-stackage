@@ -16,6 +16,7 @@ script: |
   HASKELL_PLATFORM_PACKAGES="array async attoparsec base bytestring case-insensitive containers deepseq directory extensible-exceptions fgl filepath GLURaw GLUT hashable haskell2010 haskell98 hpc hscolour html HTTP HUnit mtl network old-locale old-time OpenGL OpenGLRaw parallel parsec pretty primitive process QuickCheck random regex-base regex-compat regex-posix split stm syb template-haskell text time transformers unix unordered-containers vector xhtml zlib"
   STACKAGE="https://www.stackage.org"
   STACKAGE_BRANCH="lts"
+  TMPDIR=/tmp/install-haskell
   
   function cabal_install_insist { until cabal install -j "$@" ; do echo -e "\033[1mcabal install failed, trying again...\033[m" ; done }
   function install_stackage { mv "$HOME/.cabal/bin/cabal" $TMPDIR ; rm -rf "$HOME/.cabal" ; rm -rf "$HOME/.ghc" ; mkdir -p "$HOME/.cabal/bin" ; mv $TMPDIR/cabal "$HOME/.cabal/bin/" ; hash -r ; cabal info > /dev/null 2>&1 ; wget -q -O - "${STACKAGE}/${STACKAGE_BRANCH}/cabal.config?global=true" >> $HOME/.cabal/config ; echo ; cabal update ; echo ; }
