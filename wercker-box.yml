@@ -1,6 +1,6 @@
 name: haskell-stackage
 version: 3.0.0
-inherits: ondrapelech/haskell@2.0.3
+inherits: ondrapelech/haskell@2.0.4
 description: wercker box for the GHC 7.8 and the latest LTS Stackage snapshot, with Haskell Platform packages preinstalled
 type: main
 platform: ubuntu@12.04
