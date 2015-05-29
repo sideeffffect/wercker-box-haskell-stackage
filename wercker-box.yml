@@ -53,7 +53,6 @@ script: |
   cabal_install_insist alex happy
   cabal_install_insist $HASKELL_PLATFORM_PACKAGES
   cabal_install_insist cpphs gtk2hs-buildtools yesod snap lens
-  cabal install cryptol
   echo
   
   
