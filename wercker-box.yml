@@ -51,8 +51,9 @@ script: |
   
   echo -e "\033[1m###  Installing packages in Haskell Platform  ################################\033[m"
   cabal_install_insist alex happy
+  cabal_install_insist cpphs gtk2hs-buildtools
   cabal_install_insist $HASKELL_PLATFORM_PACKAGES
-  cabal_install_insist cpphs gtk2hs-buildtools snap lens pandoc aws yesod yesod-auth yesod-auth-deskcom yesod-auth-fb yesod-auth-hashdb yesod-auth-oauth yesod-auth-oauth2 yesod-bin yesod-core yesod-eventsource yesod-fay yesod-fb yesod-form yesod-gitrepo yesod-newsfeed yesod-persistent yesod-sitemap yesod-static yesod-test yesod-text-markdown yesod-websockets
+  cabal_install_insist snap lens pandoc aws yesod yesod-auth yesod-auth-deskcom yesod-auth-fb yesod-auth-hashdb yesod-auth-oauth yesod-auth-oauth2 yesod-bin yesod-core yesod-eventsource yesod-fay yesod-fb yesod-form yesod-gitrepo yesod-newsfeed yesod-persistent yesod-sitemap yesod-static yesod-test yesod-text-markdown yesod-websockets
   echo
   
   
