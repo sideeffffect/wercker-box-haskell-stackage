@@ -1,5 +1,5 @@
 name: haskell-stackage
-version: 3.0.3
+version: 3.0.4
 inherits: ondrapelech/haskell@2.0.5
 description: wercker box for the GHC 7.8 and the latest LTS Stackage snapshot, with Haskell Platform packages preinstalled
 type: main
